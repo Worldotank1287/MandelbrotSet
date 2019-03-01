@@ -5,8 +5,8 @@
 #include <vector>
 #include <thread>
 
-static constexpr int IMAGE_WIDTH = 1920;
-static constexpr int IMAGE_HEIGHT = 1080;
+static constexpr int IMAGE_WIDTH = 1000;
+static constexpr int IMAGE_HEIGHT = 500;
 
 class Mandelbrot {
 public:
@@ -128,6 +128,7 @@ int main() {
 					break;
 				case sf::Keyboard::Equal:
 					zoom *= 0.9;
+					printf("Zoom: %.30f\n", zoom);
 					break;
 				case sf::Keyboard::Dash:
 					zoom /= 0.9;
