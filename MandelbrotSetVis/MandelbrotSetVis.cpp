@@ -1,5 +1,6 @@
 #include "pch.h"
-// this is a testeroonie
+#include "superfloat.cpp"
+// this is a tester
 #include <SFML/Graphics.hpp>
 #include <array>
 #include <vector>
@@ -101,6 +102,7 @@ int main() {
 	double offsetX = -0.7; // and move around
 	double offsetY = 0.0;
 	double zoom = 0.004; // allow the user to zoom in and out...
+	double zoomcounter = 1;
 	Mandelbrot mb;
 
 	sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");
@@ -128,13 +130,16 @@ int main() {
 					break;
 				case sf::Keyboard::Equal:
 					zoom *= 0.9;
-					printf("Zoom: %.30f\n", zoom);
+					zoomcounter /= 0.9;
+					printf("Zoom: %.30f\n", zoomcounter);
 					break;
 				case sf::Keyboard::Dash:
 					zoom /= 0.9;
+					zoomcounter *= 0.9;
+					printf("Zoom: %.30f\n", zoomcounter);
 					break;
 				case sf::Keyboard::W:
-					offsetY -= 40 * zoom;
+					offsetY -= 40 * zoom;	//Maybe replace zoom with a function
 					break;
 				case sf::Keyboard::S:
 					offsetY += 40 * zoom;

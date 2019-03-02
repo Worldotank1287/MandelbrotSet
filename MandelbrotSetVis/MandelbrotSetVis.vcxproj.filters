@@ -26,5 +26,8 @@
     <ClCompile Include="MandelbrotSetVis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="superfloat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
