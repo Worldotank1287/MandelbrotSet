@@ -10,18 +10,42 @@
 */
 
 //typedef std::bitset<8> BYTE; Use for later, whereever calculations happen. (Probably not in this file).
-int zeros = 0;
-std::vector<std::bitset<8>> digitarray;
 
-void push0(int z){
+class SuperFloat {
+public:
+	SuperFloat(int z, std::vector<std::bitset<8>> initDigits) {
+		zeros = z;
+		digitArray = initDigits;
+	}
+	void pushZeros(int z) {
+		zeros = z;
+	};
+	int getZeros(void) {
+		return zeros;
+	};
+	void addDigits(std::bitset<8> digits) {
+		digitArray.push_back(digits);
+	};
+	std::vector<std::bitset<8>> getDigits(void) {
+		return digitArray;
+	};
+private:
+	int zeros = 0;
+	std::vector<std::bitset<8>> digitArray;
+};
+/*
+void SuperFloat::pushZeros(int z){
 	zeros = z;
 }
-int get0() {
+
+int SuperFloat::getZeros() {
 	return zeros;
 }
-void adddigit(std::bitset<8> d) {
-	digitarray.push_back(d);
+
+void SuperFloat::addDigits(std::bitset<8> digits) {
+	digitArray.push_back(digits);
 }
-std::vector<std::bitset<8>> getdigits() {
-	return digitarray;
-}
+
+std::vector<std::bitset<8>> SuperFloat::getdigits() {
+	return digitArray;
+}*/

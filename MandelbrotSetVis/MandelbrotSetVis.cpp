@@ -4,7 +4,9 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 #include <vector>
+#include <bitset>
 #include <thread>
+#include <iostream> // only for debug purposes
 
 static constexpr int IMAGE_WIDTH = 1000;
 static constexpr int IMAGE_HEIGHT = 500;
@@ -103,6 +105,23 @@ int main() {
 	double offsetY = 0.0;
 	double zoom = 0.004; // allow the user to zoom in and out...
 	double zoomcounter = 1;
+
+
+
+	// Example code for SuperFloat class
+	int z = 5;
+	std::bitset<8> test1 = 7;
+	std::bitset<8> test2 = 8;
+	std::vector<std::bitset<8>> initDigits = {test1, test2};
+	SuperFloat superTest(z, initDigits);
+	printf("%d\n", superTest.getZeros());
+	for (std::vector<std::bitset<8>>::const_iterator i = initDigits.begin(); i != initDigits.end(); ++i)
+		std::cout << *i << ' ';
+	printf("\n");
+	//
+
+
+
 	Mandelbrot mb;
 
 	sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");
@@ -169,3 +188,18 @@ int main() {
 		window.display();
 	}
 }
+
+
+/*
+Notes:
+
+anti-aliasing: https://stackoverflow.com/questions/30070348/multithreading-computation-of-mandelbrot-set
+
+Color smoothing thing:
+value = toValue * expiter + fromValue * ( 1 - expiter)
+Where toValue is the iterations and fromvalue is the iterations +1
+
+Check out shader thing here:
+https://www.sfml-dev.org/tutorials/2.0/graphics-shader.php
+
+*/
