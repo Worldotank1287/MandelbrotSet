@@ -1,11 +1,11 @@
-#include "pch.h"
-#include "superfloat.cpp"
+#include "pch.h"			//critical for compilation
+#include "superfloat.cpp"	//Theoretically program for adding floats (might be removed)
 // this is a tester
-#include <SFML/Graphics.hpp>
-#include <array>
-#include <vector>
-#include <bitset>
-#include <thread>
+#include <SFML/Graphics.hpp>//Required for drawing graphics
+#include <array>			//standard array library
+#include <vector>			//standard list library
+#include <bitset>			//standard library for defining your own data types
+#include <thread>			//standard library for multithreading (only works in VS apparently)
 #include <iostream> // only for debug purposes
 
 static constexpr int IMAGE_WIDTH = 1000;
@@ -16,8 +16,10 @@ public:
 	Mandelbrot();
 	void updateImage(double zoom, double offsetX, double offsetY, sf::Image& image) const;
 private:
-	static const int MAX = 127; // maximum number of iterations for mandelbrot()
-						 // don't increase MAX or the colouring will look strange
+	static const int MAX = 127; // maximum number of iterations for mandelbrot() was 127	Nick we need to remove this somehow.
+						 // don't increase MAX or the colouring will look strange also, CPU is maxed out.
+						 // My guess is that regardless of what is visible to the user the program calculates the position of every further interation of the fractal.
+						 // EXTREMELY resource inefficient. We will need to change this somehow, and I thought RAM would be our problem, apparently not.
 	std::array<sf::Color, MAX + 1> colors;
 
 	int mandelbrot(double startReal, double startImag) const;
@@ -25,13 +27,13 @@ private:
 	void updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const;
 };
 
-Mandelbrot::Mandelbrot() {
+Mandelbrot::Mandelbrot() {				//main method of class
 	for (int i = 0; i <= MAX; ++i) {
 		colors[i] = getColor(i);
 	}
 }
 
-int Mandelbrot::mandelbrot(double startReal, double startImag) const {
+int Mandelbrot::mandelbrot(double startReal, double startImag) const {	//Another method of the class
 	double zReal = startReal;
 	double zImag = startImag;
 
@@ -47,7 +49,7 @@ int Mandelbrot::mandelbrot(double startReal, double startImag) const {
 	return MAX;
 }
 
-sf::Color Mandelbrot::getColor(int iterations) const {
+sf::Color Mandelbrot::getColor(int iterations) const {				//getColor method in class Mandelbrot
 	int r, g, b;
 
 	// colour gradient:      Red -> Blue -> Green -> Red -> Black
@@ -76,7 +78,7 @@ sf::Color Mandelbrot::getColor(int iterations) const {
 }
 
 void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const
-{
+{		//Yet another Method
 	double real = 0 * zoom - IMAGE_WIDTH / 2.0 * zoom + offsetX;
 	double imagstart = minY * zoom - IMAGE_HEIGHT / 2.0 * zoom + offsetY;
 	for (int x = 0; x < IMAGE_WIDTH; x++, real += zoom) {
@@ -89,7 +91,7 @@ void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, s
 }
 
 void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Image& image) const
-{
+{		//Other publically defined method of Mandelbrot, last method in list.
 	const int STEP = IMAGE_HEIGHT / std::thread::hardware_concurrency();
 	std::vector<std::thread> threads;
 	for (int i = 0; i < IMAGE_HEIGHT; i += STEP) {
@@ -100,7 +102,7 @@ void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Im
 	}
 }
 
-int main() {
+int main() {		//Main method
 	double offsetX = -0.7; // and move around
 	double offsetY = 0.0;
 	double zoom = 0.004; // allow the user to zoom in and out...
@@ -108,8 +110,8 @@ int main() {
 
 
 
-	// Example code for SuperFloat class
-	int z = 5;
+	// Example code for SuperFloat class Needs serious updating and replacement
+	/*int z = 5;
 	std::bitset<8> test1 = 7;
 	std::bitset<8> test2 = 8;
 	std::vector<std::bitset<8>> initDigits = {test1, test2};
@@ -118,13 +120,13 @@ int main() {
 	for (std::vector<std::bitset<8>>::const_iterator i = initDigits.begin(); i != initDigits.end(); ++i)
 		std::cout << *i << ' ';
 	printf("\n");
-	//
+	//*/
 
 
 
-	Mandelbrot mb;
+	Mandelbrot mb;	//Define mandelbrot object
 
-	sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");
+	sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");	//Defines new Window
 	window.setFramerateLimit(0);
 
 	sf::Image image;
@@ -134,7 +136,7 @@ int main() {
 
 	bool stateChanged = true; // track whether the image needs to be regenerated
 
-	while (window.isOpen()) {
+	while (window.isOpen()) {	//Event capturer for program.
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			switch (event.type) {
@@ -178,7 +180,7 @@ int main() {
 			}
 		}
 
-		if (stateChanged) {
+		if (stateChanged) {		//draws image
 			mb.updateImage(zoom, offsetX, offsetY, image);
 			texture.loadFromImage(image);
 			sprite.setTexture(texture);
