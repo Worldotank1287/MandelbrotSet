@@ -10,13 +10,14 @@
 
 static constexpr int IMAGE_WIDTH = 1000;
 static constexpr int IMAGE_HEIGHT = 500;
+static double somethingcheckconst = 4.0;
 
 class Mandelbrot {
 public:
 	Mandelbrot();
 	void updateImage(double zoom, double offsetX, double offsetY, sf::Image& image) const;
 private:
-	static const int MAX = 127; // maximum number of iterations for mandelbrot() was 127	Nick we need to remove this somehow.
+	static const int MAX = 127; // maximum number of iterations for mandelbrot() was 127	Appears to only have to do with color.
 						 // don't increase MAX or the colouring will look strange also, CPU is maxed out.
 						 // My guess is that regardless of what is visible to the user the program calculates the position of every further interation of the fractal.
 						 // EXTREMELY resource inefficient. We will need to change this somehow, and I thought RAM would be our problem, apparently not.
@@ -33,17 +34,19 @@ Mandelbrot::Mandelbrot() {				//main method of class
 	}
 }
 
-int Mandelbrot::mandelbrot(double startReal, double startImag) const {	//Another method of the class
-	double zReal = startReal;
+int Mandelbrot::mandelbrot(double startReal, double startImag) const {	//where the real math happens
+	double zReal = startReal;	//switch these out with superfloats
 	double zImag = startImag;
 
 	for (int counter = 0; counter < MAX; ++counter) {
-		double r2 = zReal * zReal;
+
+		double r2 = zReal * zReal;	//Complete superfloat multiplication here
 		double i2 = zImag * zImag;
-		if (r2 + i2 > 4.0) {
+		
+		if (r2 + i2 > somethingcheckconst) {	//Would have to convert superfloat into something comparable Note: was initially 4.0
 			return counter;
 		}
-		zImag = 2.0 * zReal * zImag + startImag;
+		zImag = 2.0 * zReal * zImag + startImag;	//Need more superfloat multiplication, set up superfloat addition
 		zReal = r2 - i2 + startReal;
 	}
 	return MAX;
@@ -51,6 +54,9 @@ int Mandelbrot::mandelbrot(double startReal, double startImag) const {	//Another
 
 sf::Color Mandelbrot::getColor(int iterations) const {				//getColor method in class Mandelbrot
 	int r, g, b;
+	int seconditerations = iterations;
+
+	while (seconditerations > 127) seconditerations -= 127;		//Doesn't fix coloration issue.
 
 	// colour gradient:      Red -> Blue -> Green -> Red -> Black
 	// corresponding values:  0  ->  16  ->  32   -> 64  ->  127 (or -1)
@@ -121,8 +127,9 @@ int main() {		//Main method
 		std::cout << *i << ' ';
 	printf("\n");
 	//*/
-
-
+	
+	SuperFloat *programtest = new SuperFloat();
+	programtest->addDigits(12.3456789);
 
 	Mandelbrot mb;	//Define mandelbrot object
 
@@ -170,6 +177,14 @@ int main() {		//Main method
 					break;
 				case sf::Keyboard::D:
 					offsetX += 40 * zoom;
+					break;
+				case sf::Keyboard::N:
+					somethingcheckconst -= 0.1;
+					std::cout << "Event Horizon: " << somethingcheckconst << "\n";
+					break;
+				case sf::Keyboard::M:
+					somethingcheckconst += 0.1;
+					std::cout << "Event Horizon: " << somethingcheckconst << "\n";
 					break;
 				default:
 					stateChanged = false;
