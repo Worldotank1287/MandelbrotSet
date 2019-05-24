@@ -1,12 +1,2 @@
 ﻿  MandelbrotSetVis.cpp
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(52): warning C4018: '<': signed/unsigned mismatch
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(55): warning C4018: '<': signed/unsigned mismatch
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(63): warning C4018: '<': signed/unsigned mismatch
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(68): warning C4018: '<': signed/unsigned mismatch
-  superfloat.cpp
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(52): warning C4018: '<': signed/unsigned mismatch
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(55): warning C4018: '<': signed/unsigned mismatch
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(63): warning C4018: '<': signed/unsigned mismatch
-c:\users\gallo\documents\github\mandelbrotset\mandelbrotsetvis\superfloat.cpp(68): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
   MandelbrotSetVis.vcxproj -> C:\Users\gallo\Documents\GitHub\MandelbrotSet\Debug\MandelbrotSetVis.exe

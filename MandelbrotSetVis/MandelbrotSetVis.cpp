@@ -1,11 +1,11 @@
-#include "pch.h"			//critical for compilation
-#include "superfloat.cpp"	//Theoretically program for adding floats (might be removed)
+#include "pch.h"                        //critical for compilation
+#include "superfloat.cpp"       //Theoretically program for adding floats (might be removed)
 // this is a tester
 #include <SFML/Graphics.hpp>//Required for drawing graphics
-#include <array>			//standard array library
-#include <vector>			//standard list library
-#include <bitset>			//standard library for defining your own data types
-#include <thread>			//standard library for multithreading (only works in VS apparently)
+#include <array>                        //standard array library
+#include <vector>                       //standard list library
+#include <bitset>                       //standard library for defining your own data types
+#include <thread>                       //standard library for multithreading (only works in VS apparently)
 #include <iostream> // only for debug purposes
 
 static constexpr int IMAGE_WIDTH = 1000;
@@ -17,10 +17,10 @@ public:
 	Mandelbrot();
 	void updateImage(double zoom, double offsetX, double offsetY, sf::Image& image) const;
 private:
-	static const int MAX = 127; // maximum number of iterations for mandelbrot() was 127	Appears to only have to do with color.
-						 // don't increase MAX or the colouring will look strange also, CPU is maxed out.
-						 // My guess is that regardless of what is visible to the user the program calculates the position of every further interation of the fractal.
-						 // EXTREMELY resource inefficient. We will need to change this somehow, and I thought RAM would be our problem, apparently not.
+	static const int MAX = 127; // maximum number of iterations for mandelbrot() was 127    Appears to only have to do with color.
+											 // don't increase MAX or the colouring will look strange also, CPU is maxed out.
+											 // My guess is that regardless of what is visible to the user the program calculates the position of every further interation of the fractal.
+											 // EXTREMELY resource inefficient. We will need to change this somehow, and I thought RAM would be our problem, apparently not.
 	std::array<sf::Color, MAX + 1> colors;
 
 	int mandelbrot(double startReal, double startImag) const;
@@ -28,35 +28,35 @@ private:
 	void updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const;
 };
 
-Mandelbrot::Mandelbrot() {				//main method of class
+Mandelbrot::Mandelbrot() {                              //main method of class
 	for (int i = 0; i <= MAX; ++i) {
 		colors[i] = getColor(i);
 	}
 }
 
-int Mandelbrot::mandelbrot(double startReal, double startImag) const {	//where the real math happens
-	double zReal = startReal;	//switch these out with superfloats
+int Mandelbrot::mandelbrot(double startReal, double startImag) const {  //where the real math happens
+	double zReal = startReal;       //switch these out with superfloats
 	double zImag = startImag;
 
 	for (int counter = 0; counter < MAX; ++counter) {
 
-		double r2 = zReal * zReal;	//Complete superfloat multiplication here
+		double r2 = zReal * zReal;      //Complete superfloat multiplication here
 		double i2 = zImag * zImag;
-		
-		if (r2 + i2 > somethingcheckconst) {	//Would have to convert superfloat into something comparable Note: was initially 4.0
+
+		if (r2 + i2 > somethingcheckconst) {    //Would have to convert superfloat into something comparable Note: was initially 4.0
 			return counter;
 		}
-		zImag = 2.0 * zReal * zImag + startImag;	//Need more superfloat multiplication, set up superfloat addition
+		zImag = 2.0 * zReal * zImag + startImag;        //Need more superfloat multiplication, set up superfloat addition
 		zReal = r2 - i2 + startReal;
 	}
 	return MAX;
 }
 
-sf::Color Mandelbrot::getColor(int iterations) const {				//getColor method in class Mandelbrot
+sf::Color Mandelbrot::getColor(int iterations) const {                          //getColor method in class Mandelbrot
 	int r, g, b;
 	int seconditerations = iterations;
 
-	while (seconditerations > 127) seconditerations -= 127;		//Doesn't fix coloration issue.
+	while (seconditerations > 127) seconditerations -= 127;         //Doesn't fix coloration issue.
 
 	// colour gradient:      Red -> Blue -> Green -> Red -> Black
 	// corresponding values:  0  ->  16  ->  32   -> 64  ->  127 (or -1)
@@ -84,7 +84,7 @@ sf::Color Mandelbrot::getColor(int iterations) const {				//getColor method in c
 }
 
 void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image& image, int minY, int maxY) const
-{		//Yet another Method
+{               //Yet another Method
 	double real = 0 * zoom - IMAGE_WIDTH / 2.0 * zoom + offsetX;
 	double imagstart = minY * zoom - IMAGE_HEIGHT / 2.0 * zoom + offsetY;
 	for (int x = 0; x < IMAGE_WIDTH; x++, real += zoom) {
@@ -97,7 +97,7 @@ void Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, s
 }
 
 void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Image& image) const
-{		//Other publically defined method of Mandelbrot, last method in list.
+{               //Other publically defined method of Mandelbrot, last method in list.
 	const int STEP = IMAGE_HEIGHT / std::thread::hardware_concurrency();
 	std::vector<std::thread> threads;
 	for (int i = 0; i < IMAGE_HEIGHT; i += STEP) {
@@ -108,32 +108,42 @@ void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Im
 	}
 }
 
-int main() {		//Main method
+int main() {            //Main method
 	double offsetX = -0.7; // and move around
 	double offsetY = 0.0;
 	double zoom = 0.004; // allow the user to zoom in and out...
 	double zoomcounter = 1;
-
-
-
-	// Example code for SuperFloat class Needs serious updating and replacement
-	/*int z = 5;
-	std::bitset<8> test1 = 7;
-	std::bitset<8> test2 = 8;
-	std::vector<std::bitset<8>> initDigits = {test1, test2};
-	SuperFloat superTest(z, initDigits);
-	printf("%d\n", superTest.getZeros());
-	for (std::vector<std::bitset<8>>::const_iterator i = initDigits.begin(); i != initDigits.end(); ++i)
-		std::cout << *i << ' ';
-	printf("\n");
-	//*/
 	
+	//Begin Superfloat Testing
+
 	SuperFloat *programtest = new SuperFloat();
-	programtest->addDigits(12.3456789);
+	programtest->setDigits(297.349678);
 
-	Mandelbrot mb;	//Define mandelbrot object
+	std::cout << "programtest1: " << programtest->toString() << "\nprogramtest2: ";
 
-	sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");	//Defines new Window
+	SuperFloat *programtest2 = new SuperFloat();
+	std::vector<int> front;
+	std::vector<int> back;
+	front.push_back(5);
+	back.push_back(4);
+	back.push_back(3);
+	back.push_back(2);
+	back.push_back(1);
+
+	programtest2->assignDigits(front, back);
+
+	std::cout << programtest2->toString() << "\nprogramtest3: ";
+	
+	SuperFloat *programtest3 = new SuperFloat();
+	programtest3 = programtest->addDigits(programtest);
+
+	std::cout << programtest3->toString() << "\n";
+
+	//End superfloat testing
+
+	Mandelbrot mb;  //Define mandelbrot object
+
+	sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");        //Defines new Window
 	window.setFramerateLimit(0);
 
 	sf::Image image;
@@ -143,7 +153,7 @@ int main() {		//Main method
 
 	bool stateChanged = true; // track whether the image needs to be regenerated
 
-	while (window.isOpen()) {	//Event capturer for program.
+	while (window.isOpen()) {       //Event capturer for program.
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			switch (event.type) {
@@ -167,7 +177,7 @@ int main() {		//Main method
 					printf("Zoom: %.30f\n", zoomcounter);
 					break;
 				case sf::Keyboard::W:
-					offsetY -= 40 * zoom;	//Maybe replace zoom with a function
+					offsetY -= 40 * zoom;   //Maybe replace zoom with a function
 					break;
 				case sf::Keyboard::S:
 					offsetY += 40 * zoom;
@@ -195,7 +205,7 @@ int main() {		//Main method
 			}
 		}
 
-		if (stateChanged) {		//draws image
+		if (stateChanged) {             //draws image
 			mb.updateImage(zoom, offsetX, offsetY, image);
 			texture.loadFromImage(image);
 			sprite.setTexture(texture);
